@@ -11,8 +11,9 @@ from src.data_voltage import (
 from src.write_eeg_or_egf import (
     write_eeg_or_egf
     ,make_eeg_or_egf_header
-    ,create_eeg_and_egf_files
 )
+
+
 
 from src.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
 
