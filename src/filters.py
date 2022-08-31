@@ -230,3 +230,34 @@ def get_a_b(bandtype, Fs, Wp, Ws, order=3, Rp=3, As=60, analog_val=False, filtty
                 b, a = scipy.signal.iirfilter(order, [Wp, Ws], btype=bandtype, analog=analog_val, ftype=filttype)
 
     return b, a
+
+def fir_hann(data, Fs, cutoff, n_taps=101, showresponse=0):
+
+    # The Nyquist rate of the signal.
+    nyq_rate = Fs / 2
+
+    b = scipy.signal.firwin(n_taps, cutoff / nyq_rate, window='hann')
+
+    a = 1.0
+    # Use lfilter to filter x with the FIR filter.
+    data = scipy.signal.lfilter(b, a, data)
+    # data = scipy.signal.filtfilt(b, a, data)
+
+    if showresponse == 1:
+        w, h = scipy.signal.freqz(b, a, worN=8000)  # returns the requency response h, and the angular frequencies
+        # w in radians/sec
+        # w (radians/sec) * (1 cycle/2pi*radians) = Hz
+        # f = w / (2 * np.pi)  # Hz
+
+        plt.figure(figsize=(20, 15))
+        plt.subplot(211)
+        plt.semilogx((w / np.pi) * nyq_rate, np.abs(h), 'b')
+        plt.xscale('log')
+        plt.title('%s Filter Frequency Response')
+        plt.xlabel('Frequency(Hz)')
+        plt.ylabel('Gain [V/V]')
+        plt.margins(0, 0.1)
+        plt.grid(which='both', axis='both')
+        plt.axvline(cutoff, color='green')
+
+    return data, n_taps

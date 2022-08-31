@@ -8,6 +8,9 @@ from src.intan_to_eeg_and_egf import (
     ,write_eeg_or_egf_file
 )
 
+intan_path = PROJECT_PATH + '/src/tests/sampledata.rhd'
+session_name = 'test'
+output_dir = PROJECT_PATH + '/test_outputs'
 
-def test_write_eeg_or_egf_file():
-    write_eeg_or_egf_file()
+def test_intan_to_eeg_and_egf():
+    intan_to_eeg_and_egf(intan_path, session_name, output_dir)

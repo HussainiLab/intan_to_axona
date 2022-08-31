@@ -6,9 +6,7 @@ sys.path.append(PROJECT_PATH)
 from src.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
 
 from src.ephys_to_lfp import (
-    intan_to_lfp_dicts
-    ,intan_ephys_to_lfp_dict
-    ,intan_to_lfp_header_dict
+    ephys_to_lfp_dict
     ,down_sample_timeseries
     ,intan_scalar
 )
@@ -28,20 +26,6 @@ def test_good_base_directory():
     base_dir = os.getcwd().replace('\\','/')
 
 
-
-def test_intan_to_lfp_dicts():
-    """
-    Test that the intan data is converted to lfp.
-    """
-    base_dir = os.getcwd().replace('\\','/')
-    intan_data = read_rhd_data(base_dir + '/src/tests/sampledata.rhd')
-    #lfp_ephys_data, lfp_header = intan_to_lfp_dicts(intan_data)
-    # Test for egf
-
-    # Test for eeg
-
-    pass
-
 def test_intan_to_lfp_header_dict():
     base_dir = os.getcwd().replace('\\','/')
     intan_data = read_rhd_data(base_dir + '/src/tests/sampledata.rhd')
@@ -52,24 +36,24 @@ def test_intan_to_lfp_header_dict():
 
     pass
 
-def test_intan_ephys_to_lfp_dict():
+def test_ephys_to_lfp_dict():
 
     # Test for egf
-    _test_intan_ephys_to_lfp_dict(egf=True)
+    _test_ephys_to_lfp_dict(egf=True)
 
     # Test for eeg
-    _test_intan_ephys_to_lfp_dict(egf=False)
+    _test_ephys_to_lfp_dict(egf=False)
 
 
-def _test_intan_ephys_to_lfp_dict(egf:bool):
+def _test_ephys_to_lfp_dict(egf:bool):
     #base_dir = os.getcwd().replace('\\','/')
     #intan_data = read_rhd_data(base_dir + '/hfoGUI/core/load_intan_rhd_format/sampledata.rhd')
     sample_rate = intan_data['frequency_parameters']['amplifier_sample_rate']
     if egf:
-        lfp_ephys_data = intan_ephys_to_lfp_dict(intan_data, egf=True)
+        lfp_ephys_data = ephys_to_lfp_dict(intan_data, egf=True)
         new_sample_rate = 4.8e3
     else:
-        lfp_ephys_data = intan_ephys_to_lfp_dict(intan_data, egf=False)
+        lfp_ephys_data = ephys_to_lfp_dict(intan_data, egf=False)
         new_sample_rate = 250.0
 
     del lfp_ephys_data["time"]

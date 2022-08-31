@@ -635,7 +635,6 @@ def regex_filter(regex_str, iterable):
     return matches
 
 
-
 def get_session_parameters_old(pos_file, rhd_file):
 
     session_parameters = {}
