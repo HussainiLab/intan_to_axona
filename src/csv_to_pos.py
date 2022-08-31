@@ -308,3 +308,34 @@ def write_pos(filepath, pos_dict: dict):
 #         write_list.append(bytes('\r\ndata_end\r\n', 'utf-8'))
 #         f.writelines(write_list)
 
+<<<<<<< HEAD
+=======
+    return posx, posy, post
+
+
+
+
+
+def pos2hz(t, x, y, start=None, stop=None, Fs=50):
+    """This will convert the positions to 50 Hz values"""
+    if start is None:
+        start = 0
+    if stop is None:
+        stop = np.amax(t)
+    # step = 1 / Fs  # 50 Hz sample rate
+    # post = MatlabNumSeq(start, stop, step, exclude=True)
+
+    duration = stop - start
+    n = duration * Fs
+    post = np.arange(n) / Fs + start
+
+    posx = np.zeros_like(post)
+    posy = np.zeros_like(post)
+
+    for i, t_value in enumerate(post):
+        index = np.where(t <= t_value)[0][-1]
+        posx[i] = x[index]
+        posy[i] = y[index]
+
+    return posx, posy, post
+>>>>>>> 79e430d75ddaef1170cff96163315069a0869d55
