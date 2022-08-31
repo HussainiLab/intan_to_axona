@@ -1,9 +1,8 @@
-from core.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
-from core.filtering import notch_filt, iirfilt, get_a_b
+from src.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
+from src.filters import notch_filt, iirfilt, get_a_b
 
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 import scipy.signal
 import struct
 import datetime

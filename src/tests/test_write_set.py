@@ -9,7 +9,7 @@ from src.write_set import (
     ,default_set_dict
 )
 test_dir = os.path.join(PROJECT_PATH, 'src/tests')
-output_file_path = os.path.join(test_dir, 'test.set')
+output_file_path = os.path.join(PROJECT_PATH, 'test_outputs/test.set')
 
 
 def test_get_session_parameters():

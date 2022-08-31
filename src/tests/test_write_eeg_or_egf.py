@@ -1,3 +1,8 @@
+import os
+import sys
+PROJECT_PATH = os.getcwd()
+sys.path.append(PROJECT_PATH)
+
 from src.data_voltage import (
     EphysSeries
     ,EphysCollection
@@ -6,7 +11,10 @@ from src.data_voltage import (
 from src.write_eeg_or_egf import (
     write_eeg_or_egf
     ,make_eeg_or_egf_header
+    ,create_eeg_and_egf_files
 )
+
+from src.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
 
 import numpy as np
 
@@ -24,6 +32,8 @@ session_metadata = {
     ,'comments': 'This is a test'
     }
 
+intan_data = read_rhd_data(PROJECT_PATH + '/src/tests/sampledata.rhd')
+
 def test_make_eeg_or_egf_header():
     """
     This module is for local field potential (LFP) data. These data are measured
@@ -36,4 +46,8 @@ def test_write_eeg_or_egf():
     """
     This module is for local field potential (LFP) data. These data are measured
     """
-    write_eeg_or_egf(collection, session_metadata, './src/tests', 'test')
+    write_eeg_or_egf(collection, session_metadata, './test_outputs', 'test')
+
+def test_create_eeg_and_egf_files():
+    create_eeg_and_egf_files(intan_data, 'test', PROJECT_PATH + '/test_outputs')
+

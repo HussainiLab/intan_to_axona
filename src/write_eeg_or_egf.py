@@ -1,5 +1,19 @@
+from src.ephys_to_lfp import (
+    intan_ephys_to_lfp_dict
+    ,intan_to_lfp_header_dict
+    ,down_sample_timeseries
+    ,fir_hann
+)
+
+from src.filters import (
+    iirfilt
+    ,notch_filt
+    ,get_a_b
+)
+
 import os
 import struct
+import numpy as np
 
 __version__ = '1.0' # change this to a function for getting release version in future.
 
@@ -15,8 +29,6 @@ def create_eeg_and_egf_files(intan_data: dict, session_name: str, output_dir: st
     efg_header = intan_to_lfp_header_dict(intan_data, True)
 
     eeg_header = intan_to_lfp_header_dict(intan_data, False)
-
-    write_faux_set_file(eeg_header, session_name, output_dir, duration)
 
     for channel in lfp_ephys_data:
         if channel == 'time':

@@ -1,13 +1,16 @@
-from core.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
+import os
+import sys
+PROJECT_PATH = os.getcwd()
+sys.path.append(PROJECT_PATH)
 
-from intan_to_tint import (
-    create_eeg_and_egf_files
-    ,intan_to_lfp_dicts
+from src.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
+
+from src.ephys_to_lfp import (
+    intan_to_lfp_dicts
     ,intan_ephys_to_lfp_dict
     ,intan_to_lfp_header_dict
     ,down_sample_timeseries
     ,intan_scalar
-    ,produce_posfile
 )
 
 import os
@@ -15,7 +18,7 @@ import numpy as np
 import pytest
 
 base_dir = os.getcwd().replace('\\','/')
-intan_data = read_rhd_data(base_dir + '/hfoGUI/core/load_intan_rhd_format/sampledata.rhd')
+intan_data = read_rhd_data(base_dir + '/src/tests/sampledata.rhd')
 #intan_data = read_rhd_data("K:/ke/sta/data/cumc/intan_sample/b6_august_18_1_1100_plgt_190422_112734.rhd")
 
 def test_good_base_directory():
@@ -24,46 +27,14 @@ def test_good_base_directory():
     """
     base_dir = os.getcwd().replace('\\','/')
 
-def test_create_eeg_and_egf_files():
-    #create_eeg_and_egf_files(intan_data, 'test_session', base_dir + '/test_outputs/')
-    create_eeg_and_egf_files(intan_data, 'test_session', base_dir + '/test_outputs/')
 
-
-def test_read_rhd_data():
-    """
-    Test that the data is read correctly.
-    """
-    #base_dir = os.getcwd().replace('\\','/')
-
-    #data = read_rhd_data(base_dir + '/hfoGUI/core/load_intan_rhd_format/sampledata.rhd')
-
-    #data_path = "K:/ke/sta/data/cumc/INTAN_TEST/RADHA_MOUSE_AJ_950um_AQ_950um_220411_142605.rhd"
-
-    #intan_data = read_rhd_data(data_path)
-
-    #for i in range(len(intan_data["amplifier_data"])):
-        #print(intan_data["amplifier_channels"][i]["custom_channel_name"])
-        #print(intan_data["amplifier_channels"][i])
-
-
-    for header in intan_data:
-        print(header)
-        #print(intan_data[header], "\n\n")
-
-    #Check the types of the data we will use.
-    assert type(intan_data) == dict
-    assert type(intan_data['t_amplifier']) == np.ndarray
-    assert type(intan_data['amplifier_data']) == np.ndarray
-    assert type(intan_data['spike_triggers']) == list
-    for channel in intan_data['spike_triggers']:
-        assert type(channel) == dict
 
 def test_intan_to_lfp_dicts():
     """
     Test that the intan data is converted to lfp.
     """
     base_dir = os.getcwd().replace('\\','/')
-    intan_data = read_rhd_data(base_dir + '/hfoGUI/core/load_intan_rhd_format/sampledata.rhd')
+    intan_data = read_rhd_data(base_dir + '/src/tests/sampledata.rhd')
     #lfp_ephys_data, lfp_header = intan_to_lfp_dicts(intan_data)
     # Test for egf
 
@@ -73,7 +44,7 @@ def test_intan_to_lfp_dicts():
 
 def test_intan_to_lfp_header_dict():
     base_dir = os.getcwd().replace('\\','/')
-    intan_data = read_rhd_data(base_dir + '/hfoGUI/core/load_intan_rhd_format/sampledata.rhd')
+    intan_data = read_rhd_data(base_dir + '/src/tests/sampledata.rhd')
 
     # Test for egf
 
@@ -124,9 +95,3 @@ def test_down_sample_timeseries():
 
     # assert that the length of downsampled_data is within + or - 1 of the formula.
     assert len(downsampled_data) == round(len(data) / (sample_rate / new_sample_rate) - 1)
-
-def test_get_session_parameters():
-    get_session_parameters(intan_data)
-
-#def test_produce_posfile():
-#    produce_posfile(position_file_path, base_dir + '/test_outputs/')

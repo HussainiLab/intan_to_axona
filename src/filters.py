@@ -1,5 +1,6 @@
 
 import scipy
+import numpy as np
 
 def notch_filt(data, Fs, band=10, freq=60, ripple=1, order=2, filter_type='butter', analog_filt=False,
                showresponse=0):
