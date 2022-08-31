@@ -36,6 +36,4 @@ def test_write_eeg_or_egf():
     """
     This module is for local field potential (LFP) data. These data are measured
     """
-    write_eeg_or_egf(collection, session_metadata, '.', 'test')
-    #write_eeg_or_egf(collection, 'egf')
-    pass
+    write_eeg_or_egf(collection, session_metadata, './src/tests', 'test')
