@@ -6,6 +6,7 @@ import numpy as np
 # and returns a dictionary with the lines to be written to the .pos file
 # and another function that takes the dictionary and writes the .pos file
 
+
 def pd_to_dict(data_frame):
     time_aliases = ['t', 'time', 'timestamp', 'timestamps']
     # freq_aliases = ['sample_rate', 'fs', 'sample_freq', 'sampling_freq', 'sampling_rate', 'Fs']

@@ -3,6 +3,7 @@ from src.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
 from src.filters import iirfilt, notch_filt, get_a_b, fir_hann
 
 import struct
+import datetime
 
 import numpy as np
 import os
@@ -16,10 +17,6 @@ def intan_to_eeg_and_egf(intan_file_path: str, session_name: str, output_dir: st
     lfp_ephys_data = ephys_to_lfp_dict(intan_data)
     time = lfp_ephys_data['time']
     duration = time[-1] - time[0]
-
-    efg_header = intan_to_lfp_header_dict(intan_data, True)
-
-    eeg_header = intan_to_lfp_header_dict(intan_data, False)
 
     for channel in lfp_ephys_data:
         if channel == 'time':
@@ -42,7 +39,7 @@ def intan_to_eeg_and_egf(intan_file_path: str, session_name: str, output_dir: st
             egf_ephys_data = egf_ephys_data.astype(np.int16)
 
 
-            write_eeg_or_egf_file(egf_ephys_data, duration, efg_header, channel, session_name, output_dir, is_egf=True)
+            write_eeg_or_egf_file(egf_ephys_data, duration, channel, session_name, output_dir, is_egf=True)
 
 
             # EEG
@@ -59,10 +56,10 @@ def intan_to_eeg_and_egf(intan_file_path: str, session_name: str, output_dir: st
             eeg_ephys_data = eeg_ephys_data.astype(np.int8)
 
 
-            write_eeg_or_egf_file(eeg_ephys_data, duration, eeg_header, channel, session_name, output_dir, is_egf=False)
+            write_eeg_or_egf_file(eeg_ephys_data, duration, channel, session_name, output_dir, is_egf=False)
 
 
-def write_eeg_or_egf_file(lfp_single_unit_data, duration,lfp_header_dict, channel_name, session_name, output_dir, is_egf=False):
+def write_eeg_or_egf_file(lfp_single_unit_data, duration, channel_name, session_name, output_dir, is_egf=False):
     """Writes a single channel of eeg data to a .eeg file.
 
     Parameters
@@ -70,8 +67,6 @@ def write_eeg_or_egf_file(lfp_single_unit_data, duration,lfp_header_dict, channe
             The data to be written to the .eeg file.
         duration : float
             The duration of the data in seconds.
-        eeg_header_dict : dict
-            The header dictionary for the .eeg file.
         channel_name : str
             The name of the channel to be written to the .eeg file.
         session_name : str
@@ -91,28 +86,28 @@ def write_eeg_or_egf_file(lfp_single_unit_data, duration,lfp_header_dict, channe
 
 
     with open(filepath, 'w') as f:
-        header = "\nThis data set was created by the hfoGUI software."
+        header = "\nThis data set was created by the hfoGUI software on {}.\n\n".format(datetime.datetime.now())
 
         num_chans = '\nnum_chans 1'
 
         num_samples = len(lfp_single_unit_data)
 
         if is_egf:
-            sample_rate = '\nsample_rate 4.8e3'
+            sample_rate = '\nsample_rate 4.8e3 hz'
             b_p_sample = '\nbytes_per_sample 2'
+            num_samples_line = '\nnum_EGFsamples %d' % (num_samples)
         else:
-            sample_rate = '\nsample_rate 250 Hz'
+            sample_rate = '\nsample_rate 250 hz'
             b_p_sample = '\nbytes_per_sample 1'
+            num_samples_line = '\nnum_EEGsamples %d' % (num_samples)
 
-        num_samples_line = '\nnum_samples %d' % (num_samples)
-
-        p_position = '\nsamples_per_position %d' % (5)
+        #p_position = '\nsamples_per_position %d' % (5)
 
         duration = '\nduration %.3f' % (duration)
 
         start = '\ndata_start'
 
-        write_order = [header, num_chans,sample_rate, p_position, b_p_sample, num_samples_line, start]
+        write_order = [header, num_chans,sample_rate, b_p_sample, num_samples_line, start]
 
         # write the header to the file
         f.writelines(write_order)
@@ -127,22 +122,3 @@ def write_eeg_or_egf_file(lfp_single_unit_data, duration,lfp_header_dict, channe
     with open(filepath, 'rb+') as f:
         f.seek(0, 2)
         f.writelines([data, bytes('\r\ndata_end\r\n', 'utf-8')])
-
-def intan_to_lfp_header_dict(intan_data: dict, egf=True) -> dict:
-    lfp_header = dict()
-    lfp_header['date'] = 'UNKNOWN'
-    lfp_header['time'] = 'UNKNOWN'
-    lfp_header['experimenter'] = 'UNKNOWN'
-    lfp_header['comments'] = 'UNKNOWN'
-    lfp_header['duration'] = 'UNKNOWN'
-    lfp_header['version'] = 'UNKNOWN'
-    if egf:
-        lfp_header['sample_rate'] = 4.8e3
-    else: #(if eeg)
-        lfp_header['sample_rate'] = 250.0 #TODO: Check this
-
-    for key in intan_data['frequency_parameters'].keys():
-        lfp_header[key] = intan_data['frequency_parameters'][key]
-    lfp_header['channels'] = [intan_data['amplifier_channels'][i]['native_channel_name'] for i in range(len(intan_data['amplifier_channels']))]
-
-    return lfp_header
