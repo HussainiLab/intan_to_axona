@@ -1,0 +1,29 @@
+{
+    "trial_date": "Wednesday, 27 Oct 2021"
+    ,"trial_time": "11:49:51"
+    ,"experimenter": "Abid"
+    ,"comments": ""
+    ,"duration": 901
+    ,"sw_version": "1.2.2.16"
+    ,"num_colours": 4
+    ,"min_x:": 0
+    ,"max_x": 768
+    ,"min_y 0": 0
+    ,"max_y": 574
+    ,"window_min_x": 223
+    ,"window_max_x": 403
+    ,"window_min_y": 132
+    ,"window_max_y": 312
+    ,"timebase": "50 hz"
+    ,"bytes_per_timestamp": 4
+    ,"sample_rate": "50.0 hz"
+    ,"EEG_samples_per_position": 5
+    ,"bearing_colour_1": 0
+    ,"bearing_colour_2": 0
+    ,"bearing_colour_3": 0
+    ,"bearing_colour_4": 0
+    ,"pos_format": "t,x1,y1,x2,y2,numpix1,numpix2"
+    ,"bytes_per_coord": 2
+    ,"pixels_per_metre": 300
+    ,"num_pos_samples": 45050
+}

@@ -9,8 +9,8 @@ import numpy as np
 def pd_to_dict(data_frame):
     time_aliases = ['t', 'time', 'timestamp', 'timestamps']
     # freq_aliases = ['sample_rate', 'fs', 'sample_freq', 'sampling_freq', 'sampling_rate', 'Fs']
-    x_aliases = ['x','x_coord']
-    y_aliases = ['y', 'y_coord']
+    x_aliases = ['x','x_coord', 'pos_x', 'x_pos']
+    y_aliases = ['y', 'y_coord', 'pos_y', 'y_pos']
 
 
     for col in data_frame.columns:
@@ -54,6 +54,9 @@ def text_to_dict(position_text_file):
     pos_dict['t'] =  list(pos_t)
 
     return pos_dict
+
+def get_pos_header(pos_dict, **kwargs):
+ pass
 
 def write_pos(filepath, pos_dict: dict):
     with open(filepath, 'wb+') as f:
