@@ -99,3 +99,71 @@ def pos2hz(t, x, y, start=None, stop=None, Fs=50):
         posy[i] = y[index]
 
     return posx, posy, post
+
+
+def _read_pos(pos_path, ppm):
+
+    '''
+        Extracts position data from .pos file
+
+        Params:
+            pos_path (str):
+                Directory of where the position file is stored
+            ppm (float):
+                Pixel per meter value
+
+        Returns:
+            Tuple: pos_x,pos_y,pos_t,(pos_x_width,pos_y_width)
+            --------
+            pos_x, pos_y, pos_t (np.ndarray):
+                Array of x, y coordinates, and timestamps
+            pos_x_width (float):
+                max - min x coordinate value (arena width)
+            pos_y_width (float)
+                max - min y coordinate value (arena length)
+    '''
+
+    pos_data = _get_position(pos_path, ppm)
+
+    # Correcting pos_t data in case of bad position file
+    new_pos_t = np.copy(pos_data[2])
+    if len(new_pos_t) < len(pos_data[0]):
+        while len(new_pos_t) != len(pos_data[0]):
+            new_pos_t = np.append(new_pos_t, float(new_pos_t[-1] + 0.02))
+    elif len(new_pos_t) > len(pos_data[0]):
+        while len(new_pos_t) != len(pos_data[0]):
+            new_pos_t = np.delete(new_pos_t, -1)
+
+    Fs_pos = pos_data[3]
+
+    pos_x = pos_data[0]
+    pos_y = pos_data[1]
+    pos_t = new_pos_t
+
+    # Rescale coordinate values with respect to a center point
+    # (i.e arena center = origin (0,0))
+    center = _center_box(pos_x, pos_y)
+    pos_x = pos_x - center[0]
+    pos_y = pos_y - center[1]
+
+    # Correct for bad tracking
+    pos_data_corrected = _rem_bad_track(pos_x, pos_y, pos_t, 2)
+    pos_x = pos_data_corrected[0]
+    pos_y = pos_data_corrected[1]
+    pos_t = pos_data_corrected[2]
+
+    # Remove NaN values
+    nonNanValues = np.where(np.isnan(pos_x) == False)[0]
+    pos_t = pos_t[nonNanValues]
+    pos_x = pos_x[nonNanValues]
+    pos_y = pos_y[nonNanValues]
+
+    # Smooth data using boxcar convolution
+    B = np.ones((int(np.ceil(0.4 * Fs_pos)), 1)) / np.ceil(0.4 * Fs_pos)
+    pos_x = scipy.ndimage.convolve(pos_x, B, mode='nearest')
+    pos_y = scipy.ndimage.convolve(pos_y, B, mode='nearest')
+
+    pos_x_width = max(pos_x) - min(pos_x)
+    pos_y_width = max(pos_y) - min(pos_y)
+
+    return pos_x, pos_y, pos_t, (pos_x_width, pos_y_width)
