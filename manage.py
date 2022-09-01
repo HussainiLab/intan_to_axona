@@ -1,7 +1,6 @@
-from src.converter import convert_all_files
+from src.converter import convert_files
 
 import argparse
-
 
 def main():
     parser = argparse.ArgumentParser(description='Convert Intan .rhd files to .eeg  and .egf files. Optionally, also convert a .csv file with position data in conjunction with a header .json file to a .pos file.')
@@ -14,7 +13,7 @@ def main():
 
     args = parser.parse_args()
 
-    convert_all_files(args.rhd, args.output, args.csv, args.json)
+    convert_files(args.output, args.rhd, args.csv, args.json)
 
 if __name__ == '__main__':
     main()

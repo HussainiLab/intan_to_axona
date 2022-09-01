@@ -3,7 +3,7 @@ import sys
 PROJECT_PATH = os.getcwd()
 sys.path.append(PROJECT_PATH)
 
-from src.converter import convert_all_files
+from src.converter import convert_files
 
 test_dir = PROJECT_PATH + r'\src\tests'
 
@@ -17,6 +17,6 @@ pos_csv_path = test_dir + r'\Book1.csv'
 
 pos_txt_path = None
 
-def test_convert_all_files():
-    convert_all_files(output_path, rhd_path, None, None)
-    convert_all_files(output_path, rhd_path, pos_csv_path, pos_json_path)
+def test_convert_files():
+    convert_files(output_path, rhd_path, None, None)
+    convert_files(output_path, rhd_path, pos_csv_path, pos_json_path)

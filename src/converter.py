@@ -5,7 +5,7 @@ from src.csv_to_pos import write_pos, pd_to_dict, text_to_dict
 
 import pandas as pd
 
-def convert_all_files(target_directory, rhd_file_path, txt_or_csv_path=None, json_pos_path=None):
+def convert_files(target_directory, rhd_file_path, txt_or_csv_path=None, json_pos_path=None):
 
     assert os.path.exists(rhd_file_path), "The path to the .rhd file does not exist."
     assert os.path.exists(target_directory), "The path to the output directory does not exist."
