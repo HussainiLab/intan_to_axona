@@ -1,10 +1,10 @@
 {
-    "trial_date": "Wednesday, 27 Oct 2021"
-    ,"trial_time": "11:49:51"
-    ,"experimenter": "Abid"
+    "trial_date": ""
+    ,"trial_time": ""
+    ,"experimenter": ""
     ,"comments": ""
     ,"duration": 901
-    ,"sw_version": "1.2.2.16"
+    ,"sw_version": "This file was created using the intan_to_axona supplementary toolbox"
     ,"num_colours": 4
     ,"min_x": 0
     ,"max_x": 768
