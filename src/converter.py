@@ -25,7 +25,7 @@ def convert_files(target_directory, rhd_file_path, txt_or_csv_path=None, json_po
             raise ValueError("The path to the .txt or .csv file is not valid.")
         assert json_pos_path.endswith('.json'), "The path to the .json file is not valid."
 
-        pos_write_path = os.path.join(target_directory, session_name + '.pos')
+        pos_write_path = os.path.join(target_directory, 'for_hfoGUI_' + session_name + '.pos')
 
         write_pos(pos_write_path, json_pos_path, pos_dict)
 

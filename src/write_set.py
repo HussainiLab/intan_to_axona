@@ -1,10 +1,9 @@
 import re
 import os
 
-def write_set(session_parameters: dict, output_file_path: str):
+def write_set(output_file_path: str):
     with open(output_file_path, 'w') as output_file:
-        for key, value in session_parameters.items():
-            output_file.write('{} {}\n'.format(key, value))
+        output_file.write('This is a dummy set file for use with hfoGUI.')
 
 def write_set_dep(filename, session_parameters):
     session_path, session_filename = os.path.split(filename)
