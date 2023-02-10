@@ -11,6 +11,6 @@ python manage.py --output {output directory} --rhd {rhd path} --csv {csv path} -
 
 The RHD file should contain the raw electrophysiology data that needs to be down-sampled and converted.
 
-The CSV file may contain concurrent position tracking data.
+If you have additional position data, you must include a CSV and JSON file formatted like the ones shown in the test data directory.
 
-The JSON file may 
+The JSON file contains the header information to be written into the axona POS file. The CSV file should contain the tracker data.
