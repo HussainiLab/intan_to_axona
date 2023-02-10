@@ -1,7 +1,7 @@
 from src.ephys_to_lfp import ephys_to_lfp_dict, down_sample_timeseries
 from src.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
 from src.filters import iirfilt, notch_filt, get_a_b, fir_hann
-from src.write_set import write_set
+from src.write_set import write_set_dep, default_set_dict
 
 import struct
 import datetime
@@ -58,7 +58,7 @@ def intan_to_eeg_and_egf(intan_file_path: str, session_name: str, output_dir: st
 
 
             write_eeg_or_egf_file(eeg_ephys_data, duration, channel, session_name, output_dir, is_egf=False)
-    write_set(os.path.join(output_dir, "for_hfoGUI_" + session_name + '.set'))
+    write_set_dep(os.path.join(output_dir, "for_hfoGUI_" + session_name + '.set'), default_set_dict)
 
 
 def write_eeg_or_egf_file(lfp_single_unit_data, duration, channel_name, session_name, output_dir, is_egf=False):
