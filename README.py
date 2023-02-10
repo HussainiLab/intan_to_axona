@@ -1,4 +1,10 @@
 
-python manage.py --output K:\ke\dev\intan_to_axona\test_outputs --rhd K:\ke\dev\intan_to_axona\test_inputs\test.rhd --csv K:\ke\dev\intan_to_axona\test_inputs\test.csv --json K:\ke\dev\intan_to_axona\test_inputs\test.json
+# README
 
-python manage.py --output ./test_outputs --rhd ./test_inputs/test.rhd --csv ./test_inputs/test.csv --json ./test_inputs/test.json
+This is a simple command line utility for converting rhd files to axona files.
+
+Clone this repository and go into the directory. Then use the following command format to convert the files.
+
+```
+python manage.py --output {output directory} --rhd {rhd directory} --csv {csv directory} --json {json directory}
+```
