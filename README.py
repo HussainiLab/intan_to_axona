@@ -13,4 +13,6 @@ The RHD file should contain the raw electrophysiology data that needs to be down
 
 If you have additional position data, you must include a CSV and JSON file formatted like the ones shown in the test data directory.
 
-The JSON file contains the header information to be written into the axona POS file. The CSV file should contain the tracker data.
+The JSON file contains the header information to be written into the axona POS file. Use the test file as a template. 
+
+The CSV file should contain the tracker data, with three columns labeled `time`, `x` and `y` in that order.
