@@ -3,7 +3,55 @@ import os
 
 def write_set(output_file_path: str):
     with open(output_file_path, 'w') as output_file:
-        output_file.write('This is a dummy set file for use with hfoGUI.')
+        output_file.write('''trial_date
+trial_time
+experimenter
+comments
+duration 1
+sw_version
+ADC_fullscale_mv 1500
+tracker_version
+stim_version 1
+audio_version 0
+gain_ch_0 5779
+EEGmap_1 1
+EEGmap_2 1
+EEGmap_3 1
+EEGmap_4 1
+EEG_ch_1 1
+saveEEG_ch_1 1
+nullEEG 0
+EEG_ch_2 2
+saveEEG_ch_2 1
+EEG_ch_3 3
+saveEEG_ch_3 1
+EEG_ch_4 4
+saveEEG_ch_4 1
+EEG_ch_5 5
+saveEEG_ch_5 1
+EEG_ch_6 6
+saveEEG_ch_6 1
+EEG_ch_7 7
+saveEEG_ch_7 1
+EEG_ch_8 8
+saveEEG_ch_8 1
+EEG_ch_9 9
+saveEEG_ch_9 1
+EEG_ch_10 10
+saveEEG_ch_10 1
+EEG_ch_11 11
+saveEEG_ch_11 1
+EEG_ch_12 12
+saveEEG_ch_12 1
+EEG_ch_13 13
+saveEEG_ch_13 1
+EEG_ch_14 14
+saveEEG_ch_14 1
+EEG_ch_15 15
+saveEEG_ch_15 1
+EEG_ch_16 16
+saveEEG_ch_16 1
+EEGdisplay 0')''')
 
 def write_set_dep(filename, session_parameters):
     session_path, session_filename = os.path.split(filename)

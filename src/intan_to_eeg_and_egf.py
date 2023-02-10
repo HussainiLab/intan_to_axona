@@ -1,7 +1,7 @@
 from src.ephys_to_lfp import ephys_to_lfp_dict, down_sample_timeseries
 from src.load_intan_rhd_format.load_intan_rhd_format import read_rhd_data
 from src.filters import iirfilt, notch_filt, get_a_b, fir_hann
-from src.write_set import write_set_dep, default_set_dict
+from src.write_set import write_set
 
 import struct
 import datetime
@@ -58,7 +58,7 @@ def intan_to_eeg_and_egf(intan_file_path: str, session_name: str, output_dir: st
 
 
             write_eeg_or_egf_file(eeg_ephys_data, duration, channel, session_name, output_dir, is_egf=False)
-    write_set_dep(os.path.join(output_dir, "for_hfoGUI_" + session_name + '.set'), default_set_dict)
+    write_set(os.path.join(output_dir, "for_hfoGUI_" + session_name + '.set'))
 
 
 def write_eeg_or_egf_file(lfp_single_unit_data, duration, channel_name, session_name, output_dir, is_egf=False):
@@ -82,9 +82,15 @@ def write_eeg_or_egf_file(lfp_single_unit_data, duration, channel_name, session_
     """
 
     if is_egf:
-        filepath = os.path.join(output_dir, "for_hfoGUI_" + session_name + '.egf{}'.format(channel_name[-3:]))
+        if channel_name.endswith('000'):
+            filepath = os.path.join(output_dir, "for_hfoGUI_" + session_name + '.egf')
+        else:
+            filepath = os.path.join(output_dir, "for_hfoGUI_" + session_name + '.egf{}'.format(channel_name[-3:]))
     else:
-        filepath = os.path.join(output_dir, "for_hfoGUI_" +  session_name + '.eeg{}'.format(channel_name[-3:]))
+        if channel_name.endswith('000'):
+            filepath = os.path.join(output_dir, "for_hfoGUI_" + session_name + '.eeg')
+        else:
+            filepath = os.path.join(output_dir, "for_hfoGUI_" +  session_name + '.eeg{}'.format(channel_name[-3:]))
 
 
     with open(filepath, 'w') as f:
